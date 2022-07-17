@@ -316,9 +316,9 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - slack/notify:
-        event: pass
-        channel: cicd-pipeline
-        template: success_tagged_deployment_1
+          event: pass
+          channel: cicd-pipeline
+          template: success_tagged_deployment_1
 
 workflows:
   default:
