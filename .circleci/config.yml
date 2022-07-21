@@ -34,8 +34,7 @@ install_ansible:
 #           channel: cicd-pipeline
 #           template: basic_fail_1
 
-comands:
-  destroy-environment:
+destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       # Add parameter here   
