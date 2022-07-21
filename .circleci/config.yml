@@ -1,21 +1,22 @@
 version: 2.1
 
 commands:
+
   install_awscli:
-    description: Install AWS CLI v2
+    description: Install AWS cli
     steps:
       - run:
-          name: Install AWS CLI v2
+          name: Install AWS cli
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
 
   install_ansible:
-    description: Install Ansible v2
+    description: Install Ansible
     steps:
       - run:
-          name: Install Ansible v2
+          name: Install Ansible
           command: |
             sudo apt update
             sudo apt install software-properties-common
@@ -24,7 +25,7 @@ commands:
 
   destroy-environment:
       description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
-      parameters:
+      # parameters:
         # Add parameter here   
       steps:
         - run:
