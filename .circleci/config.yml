@@ -17,7 +17,10 @@ commands:
     steps:
       - run:
           name: Install Ansible
-          command: |
+          ansible.builtin.rpm_key:
+            state: present
+            key: http://apt.sw.be/RPM-GPG-KEY.dag.txt
+            command: |
             sudo apt update
             sudo apt upgrade -y
             sudo apt install software-properties-common -y
