@@ -41,7 +41,7 @@ commands:
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
-    parameters:
+    # parameters:
       # Add parameter here     
     steps:
       - run:
@@ -227,7 +227,7 @@ jobs:
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
-      # - destroy-environment 
+      - destroy-environment 
       # Here's where you will add some code to rollback on failure      
 
   run-migrations:
@@ -241,6 +241,7 @@ jobs:
             cd backend
             npm install
             npm run migrations > migrations_dump.txt
+            npm audit fix --force
       - run:
           name: Send migration results to kvdb
           command: |
