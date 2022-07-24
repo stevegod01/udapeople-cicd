@@ -32,7 +32,7 @@ commands:
           type: string  
 
       steps:
-        - install_awscli
+        # - install_awscli
         - run:
             name: Destroy environments
             when: on_fail
