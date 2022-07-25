@@ -13,12 +13,12 @@ commands:
             sudo ./aws/install
 
   install_nodejs:
-    description: Install Node.js
+    description: Install Node.js 13
     steps:
       - run:
-          name: Install Node.js
+          name: Install Node.js 13
           command: |
-            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt-get install -y nodejs
 
   install_ansible:
@@ -265,11 +265,11 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      # - add_ssh_keys:
-      #     fingerprints: 
-      #       - "8e:50:8b:4d:c9:00:5d:3d:fe:f8:8b:42:32:1c:f3:9f"
-      # - attach_workspace:
-      #     at: ~/
+      - add_ssh_keys:
+          fingerprints: 
+            - "8e:50:8b:4d:c9:00:5d:3d:fe:f8:8b:42:32:1c:f3:9f"
+      - attach_workspace:
+          at: ~/
       - install_nodejs
       - install_awscli
       - install_ansible
