@@ -314,7 +314,6 @@ jobs:
             ls -la
             cat .env
             npm run build
-      - aws-cli/setup
       - run:
           name: Deploy frontend objects
           command: |
