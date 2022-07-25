@@ -265,35 +265,29 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+
       - add_ssh_keys:
           fingerprints: 
             - "8e:50:8b:4d:c9:00:5d:3d:fe:f8:8b:42:32:1c:f3:9f"
       - attach_workspace:
           at: ~/
+
       - install_nodejs
       - install_awscli
       - install_ansible
-      - restore_cache:
-          keys: [frontend-deps]
-
-      - run:
-          name: Install dependencies
-          command: |
-            cd frontend
-            npm install
-
+        
       - run:
           name: Get backend url
           command: |
             # your code here
             export BACKEND_IP=$(aws ec2 describe-instances \
-            --filter "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --output text)
-
-            # export API_URL="http://${BACKEND_IP}:3030"
-            # echo "API_URL = ${API_URL}"
-            echo API_URL="http://${BACKEND_PUBLIC_IP}:3030" >> frontend/.env
+            --filter Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7} \
+            --output text 
+            )
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "API_URL = ${API_URL}"
+            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
             cat frontend/.env
       - run:
           name: Deploy frontend objects
@@ -305,7 +299,7 @@ jobs:
             npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment
-      - revert-migrations  
+      - revert-migrations
                     
   deploy-backend:
     docker:
