@@ -317,6 +317,7 @@ jobs:
             sudo npm install -g npm@latest
             rm -rf node_modules
             npm install
+            npm update
             npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment
