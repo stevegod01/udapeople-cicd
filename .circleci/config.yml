@@ -272,7 +272,7 @@ jobs:
       #     at: ~/
       - install_nodejs
       - install_awscli
-      - install_ansible
+      # - install_ansible
       - restore_cache:
           keys: [frontend-deps]
 
@@ -287,8 +287,8 @@ jobs:
           command: |
             # your code here
             export BACKEND_IP=$(aws ec2 describe-instances \
+            --filter "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filter Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7} \
             --output text)
 
             # export API_URL="http://${BACKEND_IP}:3030"
