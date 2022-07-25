@@ -13,12 +13,12 @@ commands:
             sudo ./aws/install
 
   install_nodejs:
-    description: Install Node.js 13
+    description: Install Node.js 18
     steps:
       - run:
-          name: Install Node.js 13
+          name: Install Node.js 18
           command: |
-            curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
             sudo apt-get install -y nodejs
 
   install_ansible:
