@@ -18,7 +18,7 @@ commands:
       - run:
           name: Install Node.js 18
           command: |
-            curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
             sudo apt-get install -y nodejs
 
   install_ansible:
@@ -313,8 +313,8 @@ jobs:
             cd ~/project/frontend
             npm install
             sudo npm update
-            sudo npm audit fix --force
             sudo npm run build
+            sudo npm audit fix --force
       - run:
           name: Deploy frontend objects
           command: |
