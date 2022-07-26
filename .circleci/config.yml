@@ -13,10 +13,10 @@ commands:
             sudo ./aws/install
 
   install_nodejs:
-    description: Install Node.js 18
+    description: Install Node.js 13
     steps:
       - run:
-          name: Install Node.js 18
+          name: Install Node.js 13
           command: |
             curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt-get install -y nodejs
@@ -35,10 +35,10 @@ commands:
 
   destroy-environment:
       description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
-      parameters:
-        workflow_id:
-          default: "${CIRCLE_WORKFLOW_ID:0:7}"
-          type: string  
+      # parameters:
+      #   workflow_id:
+      #     default: "${CIRCLE_WORKFLOW_ID:0:7}"
+      #     type: string  
 
       steps:
         # - install_awscli
@@ -52,17 +52,17 @@ commands:
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
-    parameters:
-        workflow_id:
-          default: "${CIRCLE_WORKFLOW_ID:0:7}"
-          type: string      
+    # parameters:
+    #     workflow_id:
+    #       default: "${CIRCLE_WORKFLOW_ID:0:7}"
+    #       type: string      
     steps:
       - run:
           name: Revert migrations
           # Add when this will run
           when: on_fail
           command: |
-            export SUCCESS=$(curl --insecure  https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7})
+            export SUCCESS=$(curl --insecure  https://kvdb.io/Tgcw4mEF7wPL8eV3mMbcRp/migration_${CIRCLE_WORKFLOW_ID:0:7})
             echo ${SUCCESS}
             if(( ${SUCCESS}==1 )); 
             then
@@ -239,6 +239,7 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      # - install_nodejs
       - run:
           name: Run migrations
           command: |
