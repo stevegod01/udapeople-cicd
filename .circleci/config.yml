@@ -311,11 +311,11 @@ jobs:
           name: Build frontend
           command: |
             cd ~/project/frontend
-            npm set audit false
-            npm install npm@latest -g
-            npm install
-            npm update
-            npm run build
+            sudo npm set audit false
+            sudo npm install npm@latest -g
+            sudo npm install
+            sudo npm update
+            sudo npm run build
       - run:
           name: Deploy frontend objects
           command: |
