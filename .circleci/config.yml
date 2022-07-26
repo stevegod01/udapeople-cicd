@@ -313,10 +313,10 @@ jobs:
             cd ~/project/frontend
             sudo npm cache clean -f sudo npm install -g n sudo n stable
             sudo npm update
-            npm install --save-dev webpack
-            npm update
-            npm audit fix
-            npm run build
+            sudo npm install --save-dev webpack
+            sudo npm update
+            sudo npm audit fix --force
+            sudo npm run build
       - run:
           name: Deploy frontend objects
           command: |
