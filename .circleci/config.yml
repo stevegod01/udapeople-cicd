@@ -312,8 +312,6 @@ jobs:
           command: |
             cd ~/project/frontend
             npm install --save-dev webpack
-            sudo apt install yarn -y
-            yarn add webpack --dev
             npm update
             npm audit fix --force
             npm run build
