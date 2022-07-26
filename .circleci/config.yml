@@ -310,9 +310,12 @@ jobs:
       - run:
           name: Build frontend
           command: |
-            cd frontend
-            ls -la
-            cat .env
+            cd ~/project/frontend
+            npm install --save-dev webpack
+            sudo apt install yarn -y
+            yarn add webpack --dev
+            npm update
+            npm audit fix --force
             npm run build
       - run:
           name: Deploy frontend objects
