@@ -349,7 +349,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/node:18.7.0
     steps:
       - checkout
       - install_nodejs
