@@ -296,10 +296,10 @@ jobs:
             sudo npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist 
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      - run:
-          name: Deploy frontend objects
-          command: |
-            aws s3 cp --recursive frontend/dist "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
+      # - run:
+      #     name: Deploy frontend objects
+      #     command: |
+      #       aws s3 cp --recursive frontend/dist "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
 
       - destroy-environment
       - revert-migrations
@@ -314,8 +314,8 @@ jobs:
             - "8e:50:8b:4d:c9:00:5d:3d:fe:f8:8b:42:32:1c:f3:9f"
       - attach_workspace:
           at: ~/
-      - restore_cache:
-          keys: [backend-deps]
+      # - restore_cache:
+      #     keys: [backend-deps]
 
       - install_nodejs
       - install_awscli
@@ -329,11 +329,13 @@ jobs:
             npm install
             npm run build
             cd ..
+
             cd .circleci/ansible
             mkdir files
             cd files
             tar -C ../../../backend -czvf artifact.tar.gz .
             cd ../
+
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
