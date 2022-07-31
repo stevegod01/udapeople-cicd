@@ -280,9 +280,9 @@ jobs:
             export BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filter Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7} \
-            --output text 
-            )
-            export API_URL="http://${BACKEND_IP}:3030"
+            --output text)
+
+            # export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
             cat frontend/.env
@@ -298,7 +298,6 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
-            # aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
             aws s3 cp --recursive frontend/dist "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
 
       - destroy-environment
@@ -314,25 +313,52 @@ jobs:
             - "8e:50:8b:4d:c9:00:5d:3d:fe:f8:8b:42:32:1c:f3:9f"
       - attach_workspace:
           at: ~/
-      
+      - restore_cache:
+          keys: [backend-deps]
+
       - install_nodejs
       - install_awscli
       - install_ansible
+
+      - run:
+          name: Package BACKEND_IP
+          command:
+            cd backend
+            npm run build
+            tar -czf artifact.tar.gz dist/* package*
+            
+            cd ..
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
           name: Deploy backend
           command: |
-            cd backend
-            npm install
-            npm run build
-            cd ..
+            export TYPEORM_MIGRATIONS_DIR=./migrations
+            export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
+            export TYPEORM_MIGRATIONS=./migrations/*.ts 
+            
             cd .circleci/ansible
-            mkdir files
-            cd files
-            tar -C ../../../backend -czvf artifact.tar.gz .
-            cd ../
-            echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
+          
+      - destroy-environment
+      - revert-migrations
+
+
+      # - run:
+      #     name: Deploy backend
+      #     command: |
+      #       cd backend
+      #       npm install
+      #       npm run build
+      #       cd ..
+      #       cd .circleci/ansible
+      #       mkdir files
+      #       cd files
+      #       tar -C ../../../backend -czvf artifact.tar.gz .
+      #       cd ../
+      #       echo "Contents  of the inventory.txt file is -------"
+      #       cat inventory.txt
+      #       ansible-playbook -i inventory.txt deploy-backend.yml
 
             # cd backend
             # npm i
