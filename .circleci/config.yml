@@ -294,6 +294,7 @@ jobs:
             sudo npm install npm@latest -g
             sudo npm install
             sudo npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist 
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - run:
           name: Deploy frontend objects
@@ -321,35 +322,8 @@ jobs:
       - install_ansible
 
       - run:
-          name: Package BACKEND_IP
-          command:
-            cd backend
-            npm run build
-            tar -czf artifact.tar.gz dist/* package*
-            
-            cd ..
-            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
-      # - run:
-      #     name: Deploy backend
-      #     command: |
-      #       export TYPEORM_MIGRATIONS_DIR=./migrations
-      #       export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
-      #       export TYPEORM_MIGRATIONS=./migrations/*.ts 
-            
-      #       cd .circleci/ansible
-      #       cat inventory.txt
-      #       ansible-playbook -i inventory.txt deploy-backend.yml
-          
-      # - destroy-environment
-      # - revert-migrations
-
-
-      - run:
           name: Deploy backend
           command: |
-            export TYPEORM_MIGRATIONS_DIR=./migrations
-            export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
-            export TYPEORM_MIGRATIONS=./migrations/*.ts
 
             cd backend
             npm install
@@ -409,7 +383,7 @@ jobs:
             echo $FRONTEND_WEBSITE
             if curl -s $FRONTEND_WEBSITE | grep "Welcome"
             then
-              exit 1
+              exit 0
             else
               exit 1
             fi
