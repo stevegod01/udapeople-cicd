@@ -220,7 +220,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "8e:50:8b:4d:c9:00:5d:3d:fe:f8:8b:42:32:1c:f3:9f"
+            - "79:d5:6d:b5:33:fe:06:e0:77:ca:88:9c:74:42:d3:ce:99:3a:ad:55"
       - attach_workspace:
           at: ~/
       - install_awscli
@@ -267,7 +267,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: 
-            - "8e:50:8b:4d:c9:00:5d:3d:fe:f8:8b:42:32:1c:f3:9f"
+            - "79:d5:6d:b5:33:fe:06:e0:77:ca:88:9c:74:42:d3:ce:99:3a:ad:55"
       - attach_workspace:
           at: ~/
       - install_nodejs
@@ -311,7 +311,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: 
-            - "8e:50:8b:4d:c9:00:5d:3d:fe:f8:8b:42:32:1c:f3:9f"
+            - "79:d5:6d:b5:33:fe:06:e0:77:ca:88:9c:74:42:d3:ce:99:3a:ad:55"
       - attach_workspace:
           at: ~/
       # - restore_cache:
